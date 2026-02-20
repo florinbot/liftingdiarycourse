@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(pkill:*)",
+      "Bash(npm update:*)",
+      "Bash(npm view:*)",
+      "mcp__neon__list_projects",
+      "mcp__neon__search",
+      "mcp__neon__get_database_tables",
+      "mcp__neon__describe_table_schema",
+      "mcp__neon__run_sql_transaction",
+      "mcp__neon__run_sql",
+      "mcp__neon__list_branch_computes",
+      "mcp__neon__get_connection_string",
+      "mcp__neon__describe_project"
+    ]
+  }
+}
