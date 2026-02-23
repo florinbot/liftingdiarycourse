@@ -2,6 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## IMPORTANT: Documentation-First Rule
+
+**Before generating any code**, always check the `/docs` directory for a relevant documentation file and follow it. If a docs file exists for the feature, page, or component you are working on, it takes precedence and must be used as the primary reference for implementation decisions (structure, naming, styling, behavior, etc.).
+
+- /docs/ui.md
+
 ## Project Overview
 
 This is a Next.js 16 application built with React 19, TypeScript, and Tailwind CSS 4. The project uses the App Router architecture with Clerk authentication for user management.

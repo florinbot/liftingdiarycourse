@@ -17,7 +17,10 @@
       "mcp__neon__run_sql",
       "mcp__neon__list_branch_computes",
       "mcp__neon__get_connection_string",
-      "mcp__neon__describe_project"
+      "mcp__neon__describe_project",
+      "Bash(ls:*)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(npm run build:*)"
     ]
   }
 }
