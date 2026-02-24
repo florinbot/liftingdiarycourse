@@ -4,9 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## IMPORTANT: Documentation-First Rule
 
-**Before generating any code**, always check the `/docs` directory for a relevant documentation file and follow it. If a docs file exists for the feature, page, or component you are working on, it takes precedence and must be used as the primary reference for implementation decisions (structure, naming, styling, behavior, etc.).
+**Before generating any code**, always check the `/docs` directory for a relevant documentation file and follow it. If a docs file exists for the feature, page, or component you are working on, it takes precedence and must be used as the primary reference for implementation decisions (structure, naming, styling, behavior, etc.):
 
 - /docs/ui.md
+- /docs/data-fetching.md
 
 ## Project Overview
 

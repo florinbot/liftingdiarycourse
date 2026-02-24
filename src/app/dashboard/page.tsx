@@ -1,95 +1,70 @@
-"use client"
+export const dynamic = 'force-dynamic'
 
-import { useState } from "react"
-import { format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
+import { format, parseISO } from "date-fns"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+import { DatePicker } from "./_components/date-picker"
+import { getWorkoutsForDate } from "@/data/workouts"
 
-const mockWorkouts = [
-  {
-    id: 1,
-    name: "Bench Press",
-    sets: [
-      { reps: 5, weight: 100 },
-      { reps: 5, weight: 105 },
-      { reps: 5, weight: 110 },
-    ],
-  },
-  {
-    id: 2,
-    name: "Squat",
-    sets: [
-      { reps: 5, weight: 140 },
-      { reps: 5, weight: 145 },
-      { reps: 5, weight: 150 },
-    ],
-  },
-  {
-    id: 3,
-    name: "Deadlift",
-    sets: [
-      { reps: 3, weight: 180 },
-      { reps: 3, weight: 185 },
-    ],
-  },
-]
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ date?: string }>
+}) {
+  const { date } = await searchParams
+  const selectedDate = date ? parseISO(date) : new Date()
 
-export default function DashboardPage() {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date())
-  const [open, setOpen] = useState(false)
+  const workouts = await getWorkoutsForDate(selectedDate)
 
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-6">
-      <h1 className="text-2xl font-semibold">Dashboard</h1>
+    <div className="p-6">
+      <h1 className="text-2xl font-semibold mb-6">Dashboard</h1>
 
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button variant="outline" className="w-52 justify-start gap-2">
-            <CalendarIcon className="size-4" />
-            {format(selectedDate, "do MMM yyyy")}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
-          <Calendar
-            mode="single"
-            selected={selectedDate}
-            onSelect={(date) => {
-              if (date) {
-                setSelectedDate(date)
-                setOpen(false)
-              }
-            }}
-          />
-        </PopoverContent>
-      </Popover>
+      <div className="flex gap-6 items-start">
+        {/* Left: Calendar */}
+        <div className="flex-shrink-0">
+          <DatePicker selectedDate={selectedDate} />
+        </div>
 
-      <div className="space-y-3">
-        <h2 className="text-lg font-medium">
-          Workouts for {format(selectedDate, "do MMM yyyy")}
-        </h2>
-        {mockWorkouts.map((workout) => (
-          <Card key={workout.id}>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base">{workout.name}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-1 text-sm text-muted-foreground">
-                {workout.sets.map((set, index) => (
-                  <li key={index}>
-                    Set {index + 1}: {set.reps} reps @ {set.weight} kg
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        ))}
+        {/* Right: Workouts */}
+        <div className="flex-1 space-y-4">
+          <h2 className="text-lg font-medium">
+            Workouts for {format(selectedDate, "do MMM yyyy")}
+          </h2>
+
+          {workouts.length === 0 ? (
+            <Card>
+              <CardContent className="py-16 flex items-center justify-center">
+                <p className="text-base text-muted-foreground">
+                  No workouts logged for this date.
+                </p>
+              </CardContent>
+            </Card>
+          ) : (
+            workouts.map((workout) => (
+              <Card key={workout.id}>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base">{workout.name ?? "Workout"}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2 text-sm">
+                    {workout.workoutExercises.map((we) => (
+                      <li key={we.id}>
+                        <span className="font-medium">{we.exercise.name}</span>
+                        <ul className="ml-4 mt-1 space-y-0.5 text-muted-foreground">
+                          {we.sets.map((set) => (
+                            <li key={set.id}>
+                              Set {set.setNumber}: {set.reps} reps @ {set.weight} {set.weightUnit}
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            ))
+          )}
+        </div>
       </div>
     </div>
   )
