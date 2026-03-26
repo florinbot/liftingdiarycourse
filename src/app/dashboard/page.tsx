@@ -1,7 +1,9 @@
 export const dynamic = 'force-dynamic'
 
+import Link from "next/link"
 import { format, parseISO } from "date-fns"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { DatePicker } from "./_components/date-picker"
 import { getWorkoutsForDate } from "@/data/workouts"
 
@@ -33,10 +35,13 @@ export default async function DashboardPage({
 
           {workouts.length === 0 ? (
             <Card>
-              <CardContent className="py-16 flex items-center justify-center">
+              <CardContent className="py-16 flex flex-col items-center justify-center gap-4">
                 <p className="text-base text-muted-foreground">
                   No workouts logged for this date.
                 </p>
+                <Button asChild>
+                  <Link href={`/dashboard/workout/new?date=${format(selectedDate, "yyyy-MM-dd")}`}>Log a Workout</Link>
+                </Button>
               </CardContent>
             </Card>
           ) : (
