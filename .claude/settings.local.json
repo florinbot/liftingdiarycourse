@@ -20,7 +20,9 @@
       "mcp__neon__describe_project",
       "Bash(ls:*)",
       "Bash(npx shadcn@latest add:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(cd:*)",
+      "Bash(echo zod not found:*)"
     ]
   }
 }
