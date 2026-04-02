@@ -6,12 +6,41 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { DatePicker } from "./_components/date-picker"
 import { getWorkoutsForDate } from "@/data/workouts"
+import { auth } from "@clerk/nextjs/server"
+import { SignInButton, SignUpButton } from "@clerk/nextjs"
 
 export default async function DashboardPage({
   searchParams,
 }: {
   searchParams: Promise<{ date?: string }>
 }) {
+  const { userId } = await auth()
+
+  if (!userId) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-2xl text-center">Sign in to continue</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col items-center gap-4">
+            <p className="text-muted-foreground text-center">
+              You need to be signed in to access your dashboard.
+            </p>
+            <div className="flex gap-3">
+              <SignInButton mode="modal">
+                <Button>Sign In</Button>
+              </SignInButton>
+              <SignUpButton mode="modal">
+                <Button variant="outline">Sign Up</Button>
+              </SignUpButton>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
   const { date } = await searchParams
   const selectedDate = date ? parseISO(date) : new Date()
 
