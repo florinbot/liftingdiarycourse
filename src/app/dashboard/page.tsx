@@ -46,27 +46,29 @@ export default async function DashboardPage({
             </Card>
           ) : (
             workouts.map((workout) => (
-              <Card key={workout.id}>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-base">{workout.name ?? "Workout"}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-sm">
-                    {workout.workoutExercises.map((we) => (
-                      <li key={we.id}>
-                        <span className="font-medium">{we.exercise.name}</span>
-                        <ul className="ml-4 mt-1 space-y-0.5 text-muted-foreground">
-                          {we.sets.map((set) => (
-                            <li key={set.id}>
-                              Set {set.setNumber}: {set.reps} reps @ {set.weight} {set.weightUnit}
-                            </li>
-                          ))}
-                        </ul>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+              <Link key={workout.id} href={`/dashboard/workout/${workout.id}`} className="block">
+                <Card className="hover:bg-accent transition-colors cursor-pointer">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base">{workout.name ?? "Workout"}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2 text-sm">
+                      {workout.workoutExercises.map((we) => (
+                        <li key={we.id}>
+                          <span className="font-medium">{we.exercise.name}</span>
+                          <ul className="ml-4 mt-1 space-y-0.5 text-muted-foreground">
+                            {we.sets.map((set) => (
+                              <li key={set.id}>
+                                Set {set.setNumber}: {set.reps} reps @ {set.weight} {set.weightUnit}
+                              </li>
+                            ))}
+                          </ul>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </Link>
             ))
           )}
         </div>
