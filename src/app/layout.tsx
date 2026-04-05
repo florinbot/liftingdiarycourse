@@ -7,6 +7,8 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeToggle } from "@/components/theme-toggle";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,20 +23,25 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className="dark">
+      <html lang="en" suppressHydrationWarning>
         <body className="antialiased">
-          <header className="p-4 border-b">
-            <SignedOut>
-              <div className="flex gap-4">
-                <SignInButton mode="modal" />
-                <SignUpButton mode="modal" />
+          <ThemeProvider>
+            <header className="p-4 border-b flex items-center justify-between">
+              <div>
+                <SignedOut>
+                  <div className="flex gap-4">
+                    <SignInButton mode="modal" />
+                    <SignUpButton mode="modal" />
+                  </div>
+                </SignedOut>
+                <SignedIn>
+                  <UserButton />
+                </SignedIn>
               </div>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-          </header>
-          {children}
+              <ThemeToggle />
+            </header>
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
