@@ -50,17 +50,18 @@ export default async function DashboardPage({
     <div className="p-6">
       <h1 className="text-2xl font-semibold mb-6">Dashboard</h1>
 
-      <div className="flex gap-6 items-start">
-        {/* Left: Calendar */}
-        <div className="flex-shrink-0">
-          <DatePicker selectedDate={selectedDate} />
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <DatePicker selectedDate={selectedDate} />
+            <h2 className="text-lg font-medium">
+              Workouts for {format(selectedDate, "do MMM yyyy")}
+            </h2>
+          </div>
+          <Button asChild>
+            <Link href={`/dashboard/workout/new?date=${format(selectedDate, "yyyy-MM-dd")}`}>New Workout</Link>
+          </Button>
         </div>
-
-        {/* Right: Workouts */}
-        <div className="flex-1 space-y-4">
-          <h2 className="text-lg font-medium">
-            Workouts for {format(selectedDate, "do MMM yyyy")}
-          </h2>
 
           {workouts.length === 0 ? (
             <Card>
@@ -68,9 +69,6 @@ export default async function DashboardPage({
                 <p className="text-base text-muted-foreground">
                   No workouts logged for this date.
                 </p>
-                <Button asChild>
-                  <Link href={`/dashboard/workout/new?date=${format(selectedDate, "yyyy-MM-dd")}`}>Log a Workout</Link>
-                </Button>
               </CardContent>
             </Card>
           ) : (
@@ -100,7 +98,6 @@ export default async function DashboardPage({
               </Link>
             ))
           )}
-        </div>
       </div>
     </div>
   )
